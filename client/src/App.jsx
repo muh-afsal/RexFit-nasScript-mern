@@ -7,7 +7,6 @@ import { fetchUser } from "../src/redux/actions/authActions";
 import {
   selectAuthState,
 } from "../src/redux/reducers/userSlice.js";
-import { getAccessToken } from "./utils/jwt/jwtService.js";
 
 const AppWrapper = () => {
   const dispatch = useDispatch();
@@ -15,9 +14,8 @@ const AppWrapper = () => {
 
 
 
-const tocken=getAccessToken()
   useEffect(() => {
-    if (!isAuthenticated && tocken) {
+    if (!isAuthenticated) {
       dispatch(fetchUser());
     }
   }, [isAuthenticated, dispatch]);
