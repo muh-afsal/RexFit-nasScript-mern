@@ -78,16 +78,16 @@ export const signup = async (req, res, next) => {
 
         res.cookie("accessToken", accessToken, {
           maxAge: 24 * 60 * 60 * 1000,
-          secure: true,
-          // httpOnly: true,
-          sameSite: "none",
+          httpOnly: true,
+          secure: process.env.NODE_ENV = 'production',
+          sameSite:process.env.NODE_ENV = 'production'?"none":"lax" ,
         });
 
         res.cookie("refreshToken", refreshToken, {
           maxAge: 7 * 24 * 60 * 60 * 1000,
-          secure: true,
-          // httpOnly: true,
-          sameSite: "none",
+          httpOnly: true,
+          secure: process.env.NODE_ENV = 'production',
+          sameSite:process.env.NODE_ENV = 'production'?"none":"lax" ,
         });
 
         return res.status(201).json({
@@ -188,16 +188,16 @@ export const signin = async (req, res, next) => {
 
     res.cookie("accessToken", accessToken, {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: true,
-      // httpOnly: true,
-      sameSite: "none",
+      httpOnly: true,
+      secure: process.env.NODE_ENV = 'production',
+      sameSite:process.env.NODE_ENV = 'production'?"none":"lax" ,
     });
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: true,
-      // httpOnly: true,
-      sameSite: "none",
+      httpOnly: true,
+      secure: process.env.NODE_ENV = 'production',
+      sameSite:process.env.NODE_ENV = 'production'?"none":"lax" ,
     });
 
     return res.status(200).json({

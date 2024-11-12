@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Outlet } from "react-router-dom";
-import { decodeAccessToken } from "../utils/jwt/jwtService.js"; 
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { selectUserRole, selectIsAuthenticated } from "../redux/reducers/userSlice";
 
 const RoleBasedRoutes = ({ allowedRoles }) => {
-  const token = decodeAccessToken(); 
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const role = useSelector(selectUserRole);
 
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
-
-  const { role } = token;
 
   if (allowedRoles.includes(role)) {
     return <Outlet />;
