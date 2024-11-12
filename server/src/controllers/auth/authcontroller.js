@@ -8,8 +8,7 @@ import {
   generateRefreshToken,
 } from "../../utils/services/jwtServices.js";
 import Request from "../../model/joinRequestSchema.js";
-import { OAuth2Client } from "google-auth-library"; 
-
+import { OAuth2Client } from "google-auth-library";
 
 function generateOTP() {
   return Math.floor(1000 + Math.random() * 9000).toString();
@@ -28,28 +27,20 @@ export const signup = async (req, res, next) => {
 
     if (otp) {
       try {
-        const otpRecord = await OTP.findOne({ email, otp });
-
-        if (!otpRecord) {
+        const otpRecord = await OTP.findOne({ email });
+        if (!otpRecord)
           return res.status(400).json({
             success: false,
-            message: "Invalid or expired OTP",
+            message: "OTP expired",
           });
-        }
 
-        if (otpRecord.expiresAt < new Date()) {
-          await OTP.deleteOne({ email, otp });
-          return res.status(400).json({
-            success: false,
-            message: "OTP has expired",
-          });
-        }
+          if (otpRecord.otp !== otp) return res.status(400).json("Invalid OTP");
 
-        const existingUser  = await User.findOne({
+        const existingUser = await User.findOne({
           $or: [{ email }, { Username }],
         });
 
-        if (existingUser ) {
+        if (existingUser) {
           return res.status(400).json({
             success: false,
             message: "Email or Username already exists",
@@ -58,23 +49,23 @@ export const signup = async (req, res, next) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser  = new User({
+        const newUser = new User({
           Username,
           email,
           password: hashedPassword,
           role,
         });
 
-        const savedUser  = await newUser .save();
+        const savedUser = await newUser.save();
 
-        if (role === 'trainer') {
-          const adminUser  = await User.findOne({ role: 'admin' });
-          if (adminUser ) {
+        if (role === "trainer") {
+          const adminUser = await User.findOne({ role: "admin" });
+          if (adminUser) {
             const request = new Request({
-              requestFrom: 'trainer',
-              requesterId: savedUser ._id,
-              requestTo: adminUser ._id,
-              requestType: 'regRequest',
+              requestFrom: "trainer",
+              requesterId: savedUser._id,
+              requestTo: adminUser._id,
+              requestType: "regRequest",
             });
             await request.save();
           }
@@ -82,31 +73,31 @@ export const signup = async (req, res, next) => {
 
         await OTP.deleteOne({ email, otp });
 
-        const accessToken = generateAccessToken(savedUser );
-        const refreshToken = generateRefreshToken(savedUser );
+        const accessToken = generateAccessToken(savedUser);
+        const refreshToken = generateRefreshToken(savedUser);
 
         res.cookie("accessToken", accessToken, {
           maxAge: 24 * 60 * 60 * 1000,
           secure: true,
-          httpOnly: true,
-          sameSite: "strict",
+          // httpOnly: true,
+          sameSite: "none",
         });
 
         res.cookie("refreshToken", refreshToken, {
           maxAge: 7 * 24 * 60 * 60 * 1000,
           secure: true,
-          httpOnly: true,
-          sameSite: "strict",
+          // httpOnly: true,
+          sameSite: "none",
         });
 
         return res.status(201).json({
           success: true,
           message: "Signup successful",
           user: {
-            id: savedUser ._id,
-            Username: savedUser .Username,
-            email: savedUser .email,
-            role: savedUser .role,
+            id: savedUser._id,
+            Username: savedUser.Username,
+            email: savedUser.email,
+            role: savedUser.role,
           },
         });
       } catch (otpVerificationError) {
@@ -119,11 +110,11 @@ export const signup = async (req, res, next) => {
         });
       }
     } else {
-      const existingUser  = await User.findOne({
+      const existingUser = await User.findOne({
         $or: [{ email }, { Username }],
       });
 
-      if (existingUser ) {
+      if (existingUser) {
         return res.status(400).json({
           success: false,
           message: "Email or Username already exists",
@@ -198,15 +189,15 @@ export const signin = async (req, res, next) => {
     res.cookie("accessToken", accessToken, {
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
-      httpOnly: true,
-      sameSite: "strict",
+      // httpOnly: true,
+      sameSite: "none",
     });
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       secure: true,
-      httpOnly: true,
-      sameSite: "strict",
+      // httpOnly: true,
+      sameSite: "none",
     });
 
     return res.status(200).json({
@@ -233,17 +224,16 @@ export const signin = async (req, res, next) => {
 // export const googleAuth = async (req, res, next) => {
 //   console.log((req.body,'llllllllllllllllllllllllllllll'));
 //   try {
-    
+
 //     const { credential } = req.body;
 //     const ticket = await client.verifyIdToken({
 //       idToken: credential,
-//       audience: process.env.GOOGLE_CLIENT_ID, 
+//       audience: process.env.GOOGLE_CLIENT_ID,
 //     });
 
 //     const payload = ticket.getPayload();
 //     console.log(payload,'ooooooooooooooooooooooooooooooooooo');
-    
-    
+
 //     if (!payload || !payload.email) {
 //       return res.status(400).json({ success: false, error: "Invalid token" });
 //     }
@@ -259,7 +249,7 @@ export const signin = async (req, res, next) => {
 //         Username: given_name || "",
 //         email,
 //         password: hashedPassword,
-//         role: role || "member", 
+//         role: role || "member",
 //       });
 
 //       await user.save();

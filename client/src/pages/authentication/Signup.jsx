@@ -110,10 +110,14 @@ const Signup = () => {
       const result = await dispatch(
         signupUser({ ...signupData, otp })
       ).unwrap();
+      console.log(result,'llllllllllllllllll');
+      
       if (result.success) {
         const role = result.user.role;
-
+        console.log(role,"rolee1234567");
+        
         if (role === "member") {
+          console.log("0000000000000000member");
           navigate("/member");
         } else if (role === "trainer") {
           navigate("/trainer");
