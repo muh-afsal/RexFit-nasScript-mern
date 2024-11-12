@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-// import { GoogleLogin } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser  } from '../../redux/actions/authActions.js'; 
@@ -57,34 +56,6 @@ const Login = () => {
     }
   };
 
-  // const handleGoogleLogin = async (credentialResponse) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const result= await dispatch(
-  //       googleLogin({ id_token: credentialResponse.credential })
-  //     ).unwrap();
-
-  //     if (result.success) {
-  //       const role = result.user.role;
-
-  //       if (role === "member") {
-  //         navigate("/member");
-  //       } else if (role === "trainer") {
-  //         navigate("/trainer");
-  //       } else if (role === "admin") {
-  //         navigate("/admin");
-  //       } else {
-  //         navigate("/signup");
-  //       }
-  //     } else {
-  //       setLoginError("Some error occurred while signup!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Google Login failed:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   return (
     <>
@@ -164,19 +135,7 @@ const Login = () => {
                     </p>
                   </div>
 
-                  {/* <p className="text-white">or</p>
-
-                  <div className="flex justify-center w-full">
-                    <GoogleLogin
-                      onSuccess={handleGoogleLogin}
-                      onError={() => {
-                        console.log("Login Failed");
-                      }}
-                      size="large"
-                      shape="circle"
-                      width="300"
-                    />
-                  </div> */}
+                
                 </Form>
               )}
             </Formik>
