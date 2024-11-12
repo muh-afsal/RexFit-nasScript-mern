@@ -5,7 +5,7 @@ import Login from "./pages/authentication/Login";
 import Signup from "./pages/authentication/Signup";
 // import MemberDashboard from "./pages/member/MemberDashboard";
 import TrainerDashboard from "./pages/trainer/TrainerDashboard";
-import AdminDashboard from "./pages/admin/adminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import RoleBasedRoutes from "./routes/RoleBasedRoutes";
 import TrainerLayout from "./pages/trainer/TrainerLayout";
