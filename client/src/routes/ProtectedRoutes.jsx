@@ -1,9 +1,9 @@
 
 import { Navigate, Outlet } from "react-router-dom";
-import { decodeAccessToken } from "../utils/jwt/jwtService.js"; 
+import { getAccessToken } from "../utils/jwt/jwtService.js"; 
 
 const ProtectedRoutes= () => {
-  const token = decodeAccessToken(); 
+  const token = getAccessToken(); 
   
   return token ? <Outlet /> : <Navigate to="/login" />;
 };
