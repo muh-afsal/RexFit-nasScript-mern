@@ -9,7 +9,6 @@ export const CLIENT_API = axios.create({
 
 CLIENT_API.interceptors.request.use(
     (config) => {
-        // console.log('Request:', config.method, config.url);
         return config;
     },
     (error) => {

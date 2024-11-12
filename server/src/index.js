@@ -26,9 +26,13 @@ connectToDatabase();
 
 const app = express();
 
+//cors
+const allowedOrigin = process.env.CLIENT_URL;
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL, 
-  credentials: true, 
+  credentials: true,
+  origin: [allowedOrigin],
+  methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
 };
 
 app.use(cors(corsOptions)); 
