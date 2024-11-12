@@ -8,6 +8,7 @@ import memberRoutes from './routes/memberRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import trainerRoutes from './routes/trainerRoutes.js';
 
+
 dotenv.config();
 
 const connectToDatabase = async () => {
@@ -26,7 +27,7 @@ connectToDatabase();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:5000', 
+  origin: process.env.CLIENT_URL, 
   credentials: true, 
 };
 

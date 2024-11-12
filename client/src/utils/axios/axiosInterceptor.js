@@ -1,7 +1,5 @@
-
 import axios from 'axios';
-
-const BASE_URL = 'http://localhost:3000/api';
+import {BASE_URL} from "../../common/Configuration.js"
 
 export const CLIENT_API = axios.create({
     baseURL: BASE_URL,
